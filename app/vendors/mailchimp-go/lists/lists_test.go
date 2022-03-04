@@ -6,10 +6,10 @@ import (
 	"fmt"
 	"os"
 	"reflect"
+	"server/app/vendors/mailchimp-go"
 	"testing"
 	"time"
 
-	mailchimp "github.com/beeker1121/mailchimp-go"
 )
 
 var timeString = "2020-01-02 23:59:59 +0000 UTC"
