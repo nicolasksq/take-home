@@ -8,7 +8,7 @@ import (
 )
 
 const HOST = "localhost"
-const PORT = ":80"
+const PORT = ":8080"
 
 const defaultEndpoint = "/"
 const contactsSyncEndpoint = "/contacts/sync"
