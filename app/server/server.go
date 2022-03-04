@@ -42,7 +42,12 @@ func (s Server) Start() error {
 	// main endpoint to sync contacts from the given service to given api
 	router.POST(listEndpoint, CreateList)
 
-	if err := router.Run(HOST + PORT); err != nil {
+	port := os.Getenv("PORT")
+	if port == ""{
+		port = PORT
+	}
+
+	if err := router.Run(HOST + port); err != nil {
 		return err
 	}
 	return nil
