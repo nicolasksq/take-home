@@ -5,14 +5,17 @@
 This project is version 0.0.1, and it was developed in Go 1.16.
 
 The take-home project has 1 main endpoint which is in charge of sync contacts between MockAPI and Mailchimp.
+
 # Table Content
-- [Structure project](#Structure project)
-- [Description project](#Description project)
+
+- [Structure](#Structure)
+- [Description](#Description)
 - [Resources](#Resources)
 - [Endpoints](#Endpoints)
 
 
 # Structure project
+
 ### A top-level directory layout 
 it doesn't have all files and folders, just the important ones to understand how the project was build 
 
