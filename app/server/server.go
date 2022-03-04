@@ -43,11 +43,14 @@ func (s Server) Start() error {
 	router.POST(listEndpoint, CreateList)
 
 	port := os.Getenv("PORT")
+	var addr string
 	if port == ""{
-		port = PORT
+		addr = HOST + PORT
+	} else {
+		addr = ":" + port
 	}
 
-	if err := router.Run(HOST + port); err != nil {
+	if err := router.Run(addr); err != nil {
 		return err
 	}
 	return nil
