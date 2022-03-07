@@ -50,9 +50,18 @@ If we want to create a new list using the endpoint provided, you need to be sure
 After having a list created, you'll be able to sync the contacts, using the endpoint provided.
 
 There was a couple of unknowns here, such as
-- should we update the contact if is already create? you will find this logic [here][https://github.com/nicolasksq/take-home-trio/blob/master/app/service/email_tool_client/mailchimp/list.go#L91]
-- [we are searching the list ID calling `GET /lists` endpoint][https://github.com/nicolasksq/take-home-trio/blob/master/app/service/email_tool_client/mailchimp/list.go#L43]. We expect to have just one list, as it's a limitation for Mailchimp free account. So, for that reason, we are not handling pagination in the request.
-
+- should we update the contact if is already create? you will find this logic [here](https://github.com/nicolasksq/take-home-trio/blob/master/app/service/email_tool_client/mailchimp/list.go#L81)
+- [we are searching the list ID calling `GET /lists` endpoint](https://github.com/nicolasksq/take-home-trio/blob/master/app/service/email_tool_client/mailchimp/list.go#L45). We expect to have just one list, as it's a limitation for Mailchimp free account. So, for that reason, we are not handling pagination in the request.
+- Once we have the contacts to push to mailchimp, we need to set-up the status before sending it. We have differents options such as: 
+```go 
+const (
+	StatusSubscribed   Status = "subscribed"
+	StatusUnsubscribed        = "unsubscribed"
+	StatusCleaned             = "cleaned"
+	StatusPending             = "pending"
+)
+``` 
+I decided to use status `subscribed`.
 
 # Resources
 
