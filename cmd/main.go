@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"net/http"
 	"os"
 	"strings"
@@ -28,6 +29,8 @@ func main() {
 			}
 		}
 	}
+
+	fmt.Println(apikey)
 
 	// we need to fail if apikey is not set.
 	if apikey == "" {
