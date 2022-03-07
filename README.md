@@ -9,9 +9,11 @@ The take-home project has 1 main endpoint which is in charge of sync contacts be
 # Table Content
 
 - [Structure](#Structure)
-- [Description](#Description)
+- [Description](#Description project)
 - [Resources](#Resources)
 - [Endpoints](#Endpoints)
+- [Technical Design](#Technical Design)
+- [Access Token (API Key)](#Access Tokens)
 
 
 # Structure project
@@ -38,6 +40,7 @@ it doesn't have all files and folders, just the important ones to understand how
     └── README.md
 
 # Description project
+
 The project syncs a contact list from mockAPI to Mailchipm. In order to push the contacs we've already created the list needed.
 
 If we want to test the behaviour running the endpoint without a list, we should either delete it using a mailchimp endpoint or changing the [DefaultListName][https://github.com/nicolasksq/take-home-trio/blob/master/app/service/contacts_client/mailchimp/list.go#L10]
@@ -47,17 +50,18 @@ If we want to create a new list using the endpoint provided, you need to be sure
 After having a list created, you'll be able to sync the contacts, using the endpoint provided.
 
 There was a couple of unknowns here, such as
-- should we upload the contact if is already create? you will find this logic [here][https://github.com/nicolasksq/take-home-trio/blob/master/app/service/contacts_client/mailchimp/list.go#L91]
+- should we update the contact if is already create? you will find this logic [here][https://github.com/nicolasksq/take-home-trio/blob/master/app/service/contacts_client/mailchimp/list.go#L91]
 - [we are searching the list ID calling `GET /lists` endpoint][https://github.com/nicolasksq/take-home-trio/blob/master/app/service/contacts_client/mailchimp/list.go#L43]. We expect to have just one list, as it's a limitation for Mailchimp free account.
 
 
-# Resources:
+# Resources
+
 - https://613b9035110e000017a456b1.mockapi.io/api/v1/
 - https://`{{$PREFIX_TOKEN}}`.api.mailchimp.com/3.0/
 
 HOST: `https://afternoon-citadel-79267.herokuapp.com/`
 
-#  Endpoints:
+#  Endpoints
 - POST `/list`
   - Request: 
   ```json 
@@ -98,11 +102,53 @@ HOST: `https://afternoon-citadel-79267.herokuapp.com/`
     
 ***
 
+# Technical Design
 
-[https://github.com/nicolasksq/take-home-trio/blob/master/app/service/contacts_client/mailchimp/list.go#L10]: https://github.com/nicolasksq/take-home-trio/blob/master/app/service/contacts_client/mailchimp/list.go#L10
+The main goal is to sync two different API's, integrating contacts from one MockAPI and pushing them to Mailchimp.
+In order to do that, I decided to create a `service/contacts_service` folder and `service/email_tool_client`, which will have an interface.
+```go 
+type ContactAPI interface {
+    GetContacts() ([]dao.Contact, error)
+}
+
+type ClientAPI interface {
+    BatchListMembers(contacts []dao.Contact, listID string) ([]dao.Contact, error)
+    GetListsByName(name string) (*dao.List, error)
+    CreateList(listName *string) error
+}
+```
+
+These interfaces need to be implemented by the service we decide to use. So, this give us the flexibility to implement another API instead of MockAPI or Mailchimp without changing the main business logic.
+
+To have the communication to either Mailchimp or other email-tool, we need to set the `apikey` as an env variable.
+
+-----
+
+We have two DataAccessObjects, such as `contact, list`,  to isolate the application model from the others API's.
+```go 
+type Contact struct {
+  FirstName string
+  LastName  string
+  Email     string
+}
+
+type List struct {
+	ID   string
+	Name string
+}
+```
+
+The `mailchimp_lib.go` in `service/email_tool_client/mailchimp` has been created to mock the library that I downloaded. 
+I use this approach to make static methods testable in our business.
+
+# Access Tokens
+
+The Token to play with Mailchimp API: `d2737a48f10fa2e974bc1ab2a2cd22bd-us14`
+
+[https://github.com/nicolasksq/take-home-trio/blob/master/app/service/email_tool_client/mailchimp/list.go#L10]: https://github.com/nicolasksq/take-home-trio/blob/master/app/service/contacts_client/mailchimp/list.go#L10
 
 [here]: https://github.com/nicolasksq/take-home-trio/blob/master/app/service/contacts_client/mailchimp/list.go#L91
 
-[https://github.com/nicolasksq/take-home-trio/blob/master/app/service/contacts_client/mailchimp/list.go#L91]: https://github.com/nicolasksq/take-home-trio/blob/master/app/service/contacts_client/mailchimp/list.go#L91
+[https://github.com/nicolasksq/take-home-trio/blob/master/app/service/email_tool_client/mailchimp/list.go#L91]: https://github.com/nicolasksq/take-home-trio/blob/master/app/service/contacts_client/mailchimp/list.go#L91
 
-[https://github.com/nicolasksq/take-home-trio/blob/master/app/service/contacts_client/mailchimp/list.go#L43]: https://github.com/nicolasksq/take-home-trio/blob/master/app/service/contacts_client/mailchimp/list.go#L43
+[https://github.com/nicolasksq/take-home-trio/blob/master/app/service/email_tool_client/mailchimp/list.go#L43]: https://github.com/nicolasksq/take-home-trio/blob/master/app/service/contacts_client/mailchimp/list.go#L43
