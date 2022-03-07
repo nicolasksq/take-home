@@ -9,11 +9,11 @@ The take-home project has 1 main endpoint which is in charge of sync contacts be
 # Table Content
 
 - [Structure](#Structure)
-- [Description](#Description project)
+- [Description](#Description)
 - [Resources](#Resources)
 - [Endpoints](#Endpoints)
-- [Technical Design](#Technical Design)
-- [Access Token (API Key)](#Access Tokens)
+- [Technical Design](#Technical)
+- [Access Token (API Key)](#Access)
 
 
 # Structure project
