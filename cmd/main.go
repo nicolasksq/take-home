@@ -19,12 +19,13 @@ const timeout = 5 * time.Second
 func main() {
 	var apikey string
 	for i := range os.Args {
+		fmt.Printf("este es el args : %+v",os.Args[i])
+
 		if strings.Contains(os.Args[i], "--"+apiKeyClient+"=") {
 			apikey = strings.Trim(os.Args[i], "--"+apiKeyClient+"=")
 		}
 	}
 
-	fmt.Printf("este es el args : %+v", os.Args)
 
 	if apikey == "" {
 		panic("apikey must to be set")
