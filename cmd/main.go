@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"net/http"
 	"os"
 	"strings"
@@ -22,6 +23,8 @@ func main() {
 			apikey = strings.Trim(os.Args[i], "--"+apiKeyClient+"=")
 		}
 	}
+
+	fmt.Printf("este es el args : %+v", os.Args)
 
 	if apikey == "" {
 		panic("apikey must to be set")
