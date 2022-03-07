@@ -43,15 +43,15 @@ it doesn't have all files and folders, just the important ones to understand how
 
 The project syncs a contact list from mockAPI to Mailchimp. In order to push the contacts, we've already created the list needed.
 
-If we want to test the behaviour running the endpoint without a list, we should either delete it using a mailchimp endpoint or changing the [DefaultListName](https://github.com/nicolasksq/take-home-trio/blob/master/app/service/email_tool_client/mailchimp/list.go#L10)
+If we want to test the behaviour running the endpoint without a list, we should either delete it using a mailchimp endpoint or changing the [DefaultListName](https://github.com/nicolasksq/take-home-trio/blob/master/app/service/email_tool_client/mailchimp/list.go#L11)
 
 If we want to create a new list using the endpoint provided, you need to be sure that there is no list created, because our account just allows to create one list.
 
 After having a list created, you'll be able to sync the contacts, using the endpoint provided.
 
 There was a couple of unknowns here, such as
-- should we update the contact if is already create? you will find this logic [here][https://github.com/nicolasksq/take-home-trio/blob/master/app/service/contacts_client/mailchimp/list.go#L91]
-- [we are searching the list ID calling `GET /lists` endpoint][https://github.com/nicolasksq/take-home-trio/blob/master/app/service/contacts_client/mailchimp/list.go#L43]. We expect to have just one list, as it's a limitation for Mailchimp free account.
+- should we update the contact if is already create? you will find this logic [here][https://github.com/nicolasksq/take-home-trio/blob/master/app/service/email_tool_client/mailchimp/list.go#L91]
+- [we are searching the list ID calling `GET /lists` endpoint][https://github.com/nicolasksq/take-home-trio/blob/master/app/service/email_tool_client/mailchimp/list.go#L43]. We expect to have just one list, as it's a limitation for Mailchimp free account. So, for that reason, we are not handling pagination in the request.
 
 
 # Resources
