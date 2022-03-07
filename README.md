@@ -41,7 +41,7 @@ it doesn't have all files and folders, just the important ones to understand how
 
 # Description project
 
-The project syncs a contact list from mockAPI to Mailchipm. In order to push the contacs we've already created the list needed.
+The project syncs a contact list from mockAPI to Mailchimp. In order to push the contacts, we've already created the list needed.
 
 If we want to test the behaviour running the endpoint without a list, we should either delete it using a mailchimp endpoint or changing the [DefaultListName][https://github.com/nicolasksq/take-home-trio/blob/master/app/service/contacts_client/mailchimp/list.go#L10]
 
