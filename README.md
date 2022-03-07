@@ -12,7 +12,7 @@ The take-home project has 1 main endpoint which is in charge of sync contacts be
 - [Description](#Description)
 - [Resources](#Resources)
 - [Endpoints](#Endpoints)
-- [Technical Design](#Technical)
+- [Technical Design](#Technical Design)
 - [Access Token (API Key)](#Access)
 
 
