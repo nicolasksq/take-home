@@ -3,22 +3,20 @@ package mailchimp
 import (
 	"net/http"
 
+	"server/app/vendors/mailchimp-go"
 	"server/app/vendors/mailchimp-go/lists"
 	"server/app/vendors/mailchimp-go/lists/members"
 )
 
 // NewMailchimpLib we create this to make testeable the mailchimlib in vendors folder.
 func NewMailchimpLib(apiKey string, httpClient *http.Client) MailchimpLibImpl {
-	return MailchimpLib{
-		apiKey:     apiKey,
-		httpClient: httpClient,
-	}
+	_ = mailchimp.SetKey(apiKey)
+	mailchimp.SetClient(httpClient)
+
+	return MailchimpLib{}
 }
 
-type MailchimpLib struct {
-	apiKey     string
-	httpClient *http.Client
-}
+type MailchimpLib struct{}
 
 // MailchimpLibImpl due to Kata test
 type MailchimpLibImpl interface {
