@@ -18,15 +18,19 @@ const timeout = 5 * time.Second
 
 func main() {
 	var apikey string
-	for i := range os.Args {
-		fmt.Printf("este es el args : %s",os.Args[i])
-
-		if strings.Contains(os.Args[i], "--"+apiKeyClient+"=") {
-			apikey = strings.Trim(os.Args[i], "--"+apiKeyClient+"=")
+	if os.Getenv("apikey") != "" {
+		//apikey set in heroku
+		apikey = os.Getenv("apikey")
+	} else {
+		//local enviroment.
+		for i := range os.Args {
+			if strings.Contains(os.Args[i], "--"+apiKeyClient+"=") {
+				apikey = strings.Trim(os.Args[i], "--"+apiKeyClient+"=")
+			}
 		}
 	}
 
-
+	// we need to fail if apikey is not set.
 	if apikey == "" {
 		panic("apikey must to be set")
 	}
