@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"log"
 	"net/http"
 	"os"
 	"strings"
@@ -30,7 +31,7 @@ func main() {
 		}
 	}
 
-	fmt.Println(apikey)
+	log.Logger.Println(apikey)
 
 	// we need to fail if apikey is not set.
 	if apikey == "" {
