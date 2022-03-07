@@ -8,12 +8,12 @@ The take-home project has 1 main endpoint which is in charge of sync contacts be
 
 # Table Content
 
-- [Structure](#Structure)
-- [Description](#Description)
-- [Resources](#Resources)
-- [Endpoints](#Endpoints)
-- [Technical Design](#Technical Design)
-- [Access Token (API Key)](#Access)
+- [Structure](#structure-project)
+- [Description](#description)
+- [Resources](#resources)
+- [Endpoints](#endpoints)
+- [Technical Design](#technical-design)
+- [Access Token (API Key)](#access-tokens)
 
 
 # Structure project
@@ -39,7 +39,7 @@ it doesn't have all files and folders, just the important ones to understand how
     ├── go.mod    
     └── README.md
 
-# Description project
+# Description
 
 The project syncs a contact list from mockAPI to Mailchimp. In order to push the contacts, we've already created the list needed.
 
