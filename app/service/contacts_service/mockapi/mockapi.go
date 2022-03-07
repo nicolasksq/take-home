@@ -3,22 +3,24 @@ package mockapi
 import (
 	"encoding/json"
 	"io/ioutil"
-	"net/http"
+
 	"server/app/dao"
-	"time"
+	"server/app/service/contacts_service"
+	clientHttp "server/app/service/contacts_service/mockapi/client"
 )
 
 const mockApiEndpoint = "https://613b9035110e000017a456b1.mockapi.io/api/v1/"
 const getContactsEndpoint = mockApiEndpoint + "/contacts"
-const timeout = 5 * time.Second
+
+var _ contacts_service.ContactAPI = Mockapi{}
 
 type Mockapi struct {
-	httpClient http.Client
+	httpClient clientHttp.HTTPClient
 }
 
-func NewMockapi() Mockapi {
+func NewMockapi(client clientHttp.HTTPClient) Mockapi {
 	// I set a timeout to call this api, in case it could be unresponsive.
-	return Mockapi{httpClient: http.Client{Timeout: timeout}}
+	return Mockapi{httpClient: client}
 }
 
 func (m Mockapi) GetContacts() ([]dao.Contact, error) {

@@ -324,61 +324,69 @@ func (up *UpdateParams) MarshalJSON() ([]byte, error) {
 }
 
 type MemberResponse struct {
-	NewMembers []struct {
-		Id            string `json:"id"`
-		EmailAddress  string `json:"email_address"`
-		UniqueEmailId string `json:"unique_email_id"`
-		EmailType     string `json:"email_type"`
-		Status        string `json:"status"`
-		MergeFields   struct {
-			Property1 interface{} `json:"property1"`
-			Property2 interface{} `json:"property2"`
-		} `json:"merge_fields"`
-		Interests struct {
-			Property1 bool `json:"property1"`
-			Property2 bool `json:"property2"`
-		} `json:"interests"`
-		Stats struct {
-			AvgOpenRate  int `json:"avg_open_rate"`
-			AvgClickRate int `json:"avg_click_rate"`
-		} `json:"stats"`
-		IpSignup        string    `json:"ip_signup"`
-		TimestampSignup time.Time `json:"timestamp_signup"`
-		IpOpt           string    `json:"ip_opt"`
-		TimestampOpt    time.Time `json:"timestamp_opt"`
-		MemberRating    int       `json:"member_rating"`
-		LastChanged     time.Time `json:"last_changed"`
-		Language        string    `json:"language"`
-		Vip             bool      `json:"vip"`
-		EmailClient     string    `json:"email_client"`
-		Location        struct {
-			Latitude    int    `json:"latitude"`
-			Longitude   int    `json:"longitude"`
-			Gmtoff      int    `json:"gmtoff"`
-			Dstoff      int    `json:"dstoff"`
-			CountryCode string `json:"country_code"`
-			Timezone    string `json:"timezone"`
-		} `json:"location"`
-		LastNote struct {
-			NoteId    int       `json:"note_id"`
-			CreatedAt time.Time `json:"created_at"`
-			CreatedBy string    `json:"created_by"`
-			Note      string    `json:"note"`
-		} `json:"last_note"`
-		TagsCount int `json:"tags_count"`
-		Tags      []struct {
-			Id   int    `json:"id"`
-			Name string `json:"name"`
-		} `json:"tags"`
-		ListId string `json:"list_id"`
-		Links  []struct {
-			Rel          string `json:"rel"`
-			Href         string `json:"href"`
-			Method       string `json:"method"`
-			TargetSchema string `json:"targetSchema"`
-			Schema       string `json:"schema"`
-		} `json:"_links"`
-	} `json:"new_members"`
+	Id            string `json:"id"`
+	EmailAddress  string `json:"email_address"`
+	UniqueEmailId string `json:"unique_email_id"`
+	EmailType     string `json:"email_type"`
+	Status        string `json:"status"`
+	MergeFields   struct {
+		Property1 interface{} `json:"property1"`
+		Property2 interface{} `json:"property2"`
+	} `json:"merge_fields"`
+	Interests struct {
+		Property1 bool `json:"property1"`
+		Property2 bool `json:"property2"`
+	} `json:"interests"`
+	Stats struct {
+		AvgOpenRate  int `json:"avg_open_rate"`
+		AvgClickRate int `json:"avg_click_rate"`
+	} `json:"stats"`
+	IpSignup        string    `json:"ip_signup"`
+	TimestampSignup time.Time `json:"timestamp_signup"`
+	IpOpt           string    `json:"ip_opt"`
+	TimestampOpt    time.Time `json:"timestamp_opt"`
+	MemberRating    int       `json:"member_rating"`
+	LastChanged     time.Time `json:"last_changed"`
+	Language        string    `json:"language"`
+	Vip             bool      `json:"vip"`
+	EmailClient     string    `json:"email_client"`
+	Location        struct {
+		Latitude    int    `json:"latitude"`
+		Longitude   int    `json:"longitude"`
+		Gmtoff      int    `json:"gmtoff"`
+		Dstoff      int    `json:"dstoff"`
+		CountryCode string `json:"country_code"`
+		Timezone    string `json:"timezone"`
+	} `json:"location"`
+	LastNote struct {
+		NoteId    int       `json:"note_id"`
+		CreatedAt time.Time `json:"created_at"`
+		CreatedBy string    `json:"created_by"`
+		Note      string    `json:"note"`
+	} `json:"last_note"`
+	TagsCount int `json:"tags_count"`
+	Tags      []struct {
+		Id   int    `json:"id"`
+		Name string `json:"name"`
+	} `json:"tags"`
+	ListId string `json:"list_id"`
+	Links  []struct {
+		Rel          string `json:"rel"`
+		Href         string `json:"href"`
+		Method       string `json:"method"`
+		TargetSchema string `json:"targetSchema"`
+		Schema       string `json:"schema"`
+	} `json:"_links"`
+}
+
+type Error struct {
+	EmailAddress string `json:"email_address"`
+	Error        string `json:"error"`
+	ErrorCode    string `json:"error_code"`
+}
+
+type MembersResponse struct {
+	NewMembers     []MemberResponse `json:"new_members"`
 	UpdatedMembers []struct {
 		Id            string `json:"id"`
 		EmailAddress  string `json:"email_address"`
@@ -434,14 +442,10 @@ type MemberResponse struct {
 			Schema       string `json:"schema"`
 		} `json:"_links"`
 	} `json:"updated_members"`
-	Errors []struct {
-		EmailAddress string `json:"email_address"`
-		Error        string `json:"error"`
-		ErrorCode    string `json:"error_code"`
-	} `json:"errors"`
-	TotalCreated int `json:"total_created"`
-	TotalUpdated int `json:"total_updated"`
-	ErrorCount   int `json:"error_count"`
+	Errors       []Error `json:"errors"`
+	TotalCreated int     `json:"total_created"`
+	TotalUpdated int     `json:"total_updated"`
+	ErrorCount   int     `json:"error_count"`
 	Links        []struct {
 		Rel          string `json:"rel"`
 		Href         string `json:"href"`
@@ -452,8 +456,8 @@ type MemberResponse struct {
 }
 
 // New adds a new list member.
-func New(listID string, params *NewParams) (*MemberResponse, error) {
-	res := &MemberResponse{}
+func New(listID string, params *NewParams) (*MembersResponse, error) {
+	res := &MembersResponse{}
 	path := fmt.Sprintf("lists/%s", listID)
 
 	if params == nil {

@@ -1,7 +1,7 @@
 package dao
 
 type Contact struct {
-	Firstname string
-	Lastname  string
+	FirstName string
+	LastName  string
 	Email     string
 }

@@ -1,10 +1,12 @@
 package server
 
 import (
-	"github.com/gin-gonic/gin"
 	"net/http"
 	"os"
-	"strings"
+
+	"github.com/gin-gonic/gin"
+
+	"server/app/api/contacts"
 )
 
 const HOST = "localhost"
@@ -14,22 +16,17 @@ const defaultEndpoint = "/"
 const contactsSyncEndpoint = "/contacts/sync"
 const listEndpoint = "/list/"
 
-type Server struct{}
+type Server struct {
+	ContactsAPI contacts.ContactInterface
+}
 
-const apiKeyClient = "apikey"
+func NewServer(contactsApi contacts.ContactInterface) Server {
+	return Server{
+		ContactsAPI: contactsApi,
+	}
+}
 
 func (s Server) Start() error {
-	// there is a better way to do this, using flag package.
-	for i := range os.Args {
-		if strings.Contains(os.Args[i], "--"+apiKeyClient+"=") {
-			_ = os.Setenv(apiKeyClient, strings.Trim(os.Args[i], "--"+apiKeyClient+"="))
-		}
-	}
-
-	if os.Getenv(apiKeyClient) == "" {
-		panic("apikey must to be set")
-	}
-
 	router := gin.Default()
 	// we defined endpoints here
 	router.GET(defaultEndpoint, func(c *gin.Context) {
@@ -37,14 +34,15 @@ func (s Server) Start() error {
 	})
 
 	// main endpoint to sync contacts from the given service to given api
-	router.GET(contactsSyncEndpoint, SyncContacts)
+	router.GET(contactsSyncEndpoint, s.SyncContacts)
 
 	// main endpoint to sync contacts from the given service to given api
-	router.POST(listEndpoint, CreateList)
+	router.POST(listEndpoint, s.CreateList)
 
+	// to satisfy heroku port
 	port := os.Getenv("PORT")
 	var addr string
-	if port == ""{
+	if port == "" {
 		addr = HOST + PORT
 	} else {
 		addr = ":" + port
