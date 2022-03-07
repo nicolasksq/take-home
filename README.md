@@ -127,13 +127,16 @@ type ClientAPI interface {
 }
 ```
 
-These interfaces need to be implemented by the service we decide to use. So, this give us the flexibility to implement another API instead of MockAPI or Mailchimp without changing the main business logic.
+These interfaces need to be implemented by the service that we decided to use. So, this give us the flexibility to implement another API instead of MockAPI or Mailchimp without changing the main business logic.
 
 To have the communication to either Mailchimp or other email-tool, we need to set the `apikey` as an env variable.
 
 -----
+Our main logic is in [app/api/contacts/contacts.go](https://github.com/nicolasksq/take-home-trio/blob/master/app/api/contacts/contact.go#L33)
 
-We have two DataAccessObjects, such as `contact, list`,  to isolate the application model from the others API's.
+-----
+
+We have two Data Access Objects, such as `contact, list`,  to isolate the application model from the others API's.
 ```go 
 type Contact struct {
   FirstName string
