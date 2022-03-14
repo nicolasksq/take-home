@@ -1,4 +1,4 @@
-# Back-End Project Trio
+# Back-End Project
 
 ****
 
@@ -43,15 +43,15 @@ it doesn't have all files and folders, just the important ones to understand how
 
 The project syncs a contact list from mockAPI to Mailchimp. In order to push the contacts, we've already created the list needed.
 
-If we want to test the behaviour running the endpoint without a list, we should either delete it using a mailchimp endpoint or changing the [DefaultListName](https://github.com/nicolasksq/take-home-trio/blob/master/app/service/email_tool_client/mailchimp/list.go#L11)
+If we want to test the behaviour running the endpoint without a list, we should either delete it using a mailchimp endpoint or changing the [DefaultListName](https://github.com/nicolasksq/take-home/blob/master/app/service/email_tool_client/mailchimp/list.go#L11)
 
 If we want to create a new list using the endpoint provided, you need to be sure that there is no list created, because our account just allows to create one list.
 
 After having a list created, you'll be able to sync the contacts, using the endpoint provided.
 
 There was a couple of unknowns here, such as
-- should we update the contact if is already create? you will find this logic [here](https://github.com/nicolasksq/take-home-trio/blob/master/app/service/email_tool_client/mailchimp/list.go#L81)
-- [we are searching the list ID calling `GET /lists` endpoint](https://github.com/nicolasksq/take-home-trio/blob/master/app/service/email_tool_client/mailchimp/list.go#L45). We expect to have just one list, as it's a limitation for Mailchimp free account. So, for that reason, we are not handling pagination in the request.
+- should we update the contact if is already create? you will find this logic [here](https://github.com/nicolasksq/take-home/blob/master/app/service/email_tool_client/mailchimp/list.go#L81)
+- [we are searching the list ID calling `GET /lists` endpoint](https://github.com/nicolasksq/take-home/blob/master/app/service/email_tool_client/mailchimp/list.go#L45). We expect to have just one list, as it's a limitation for Mailchimp free account. So, for that reason, we are not handling pagination in the request.
 - Once we have the contacts to push to mailchimp, we need to set-up the status before sending it. We have differents options such as: 
 ```go 
 const (
@@ -132,9 +132,6 @@ These interfaces need to be implemented by the service that we decided to use. S
 To have the communication to either Mailchimp or other email-tool, we need to set the `apikey` as an env variable.
 
 -----
-Our main logic is in [app/api/contacts/contacts.go](https://github.com/nicolasksq/take-home-trio/blob/master/app/api/contacts/contact.go#L33)
-
------
 
 We have two Data Access Objects, such as `contact, list`,  to isolate the application model from the others API's.
 ```go 
@@ -153,14 +150,10 @@ type List struct {
 The `mailchimp_lib.go` in `service/email_tool_client/mailchimp` has been created to mock the library that I downloaded. 
 I use this approach to make static methods testable in our business.
 
-# Access Tokens
+[https://github.com/nicolasksq/take-home/blob/master/app/service/email_tool_client/mailchimp/list.go#L10]: https://github.com/nicolasksq/take-home/blob/master/app/service/contacts_client/mailchimp/list.go#L10
 
-The Token to play with Mailchimp API: `d2737a48f10fa2e974bc1ab2a2cd22bd-us14`
+[here]: https://github.com/nicolasksq/take-home/blob/master/app/service/contacts_client/mailchimp/list.go#L91
 
-[https://github.com/nicolasksq/take-home-trio/blob/master/app/service/email_tool_client/mailchimp/list.go#L10]: https://github.com/nicolasksq/take-home-trio/blob/master/app/service/contacts_client/mailchimp/list.go#L10
+[https://github.com/nicolasksq/take-home/blob/master/app/service/email_tool_client/mailchimp/list.go#L91]: https://github.com/nicolasksq/take-home/blob/master/app/service/contacts_client/mailchimp/list.go#L91
 
-[here]: https://github.com/nicolasksq/take-home-trio/blob/master/app/service/contacts_client/mailchimp/list.go#L91
-
-[https://github.com/nicolasksq/take-home-trio/blob/master/app/service/email_tool_client/mailchimp/list.go#L91]: https://github.com/nicolasksq/take-home-trio/blob/master/app/service/contacts_client/mailchimp/list.go#L91
-
-[https://github.com/nicolasksq/take-home-trio/blob/master/app/service/email_tool_client/mailchimp/list.go#L43]: https://github.com/nicolasksq/take-home-trio/blob/master/app/service/contacts_client/mailchimp/list.go#L43
+[https://github.com/nicolasksq/take-home/blob/master/app/service/email_tool_client/mailchimp/list.go#L43]: https://github.com/nicolasksq/take-home/blob/master/app/service/contacts_client/mailchimp/list.go#L43
