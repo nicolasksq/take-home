@@ -21,7 +21,7 @@ func (mc Mailchimp) CreateList(listName *string) error {
 		Visibility:         lists.VisibilityPublic,
 		PermissionReminder: "You opted to receive updates",
 		Contact: &lists.Contact{
-			Company:  "Trio",
+			Company:  "NaN",
 			Address1: "123 Main St",
 			City:     "Chicago",
 			State:    "IL",
@@ -31,7 +31,7 @@ func (mc Mailchimp) CreateList(listName *string) error {
 		CampaignDefaults: &lists.CampaignDefaults{
 			FromName:  "Nicolas",
 			FromEmail: "nicolasandreoli9@gmail.com",
-			Subject:   "Trio project",
+			Subject:   "NaN project",
 			Language:  "EN",
 		},
 		EmailTypeOption: false,
