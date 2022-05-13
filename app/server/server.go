@@ -30,7 +30,7 @@ func (s Server) Start() error {
 	router := gin.Default()
 	// we defined endpoints here
 	router.GET(defaultEndpoint, func(c *gin.Context) {
-		c.IndentedJSON(http.StatusOK, gin.H{"trio.dev": "Hey Trio team!, hope you're having a nice day. :)"})
+		c.IndentedJSON(http.StatusOK, gin.H{"hey": "hope you're having a nice day. :)"})
 	})
 
 	// main endpoint to sync contacts from the given service to given api
